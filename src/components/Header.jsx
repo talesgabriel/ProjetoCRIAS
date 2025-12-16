@@ -8,7 +8,7 @@ export default function Header() {
 
       <nav>
         <ul>
-          <li><Link href="/">Home</Link></li>
+          <li><Link href="/home">Home</Link></li>
           <li><Link href="#sobre">Quem somos</Link></li>
           <li><Link href="#portfolio">Portfólio</Link></li>
           <li><Link href="#noticias">Notícias</Link></li>
