@@ -1,4 +1,4 @@
-import Equipe from "../../components/Equipe";
+import Equipe from "../../components/admin/Equipe";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 

@@ -1,7 +1,7 @@
 // filepath: /home/regidev/github/ProjetoCRIAS/src/pages/admin/AdminPanel.jsx
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import styles from '../styles/Equipe.module.css';
+import styles from '../../styles/Equipe.module.css';
 
 const CARGOS = {
   PRESIDENTE: 'Presidente',
@@ -62,12 +62,6 @@ export default function AdminPanel() {
           'Content-Type': 'application/json'
         }
       });
-
-      if (response.status === 401) {
-        localStorage.removeItem('accessToken');
-        router.push('/admin/login');
-        return;
-      }
 
       if (!response.ok) {
         throw new Error('Erro ao carregar equipe');
