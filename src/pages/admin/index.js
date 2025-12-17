@@ -1,9 +1,11 @@
 import Equipe from "../../components/admin/Equipe";
-import { useEffect } from "react";
+import Noticias from "../../components/admin/Noticias";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 export default function AdminPanel() {
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState("equipe");
 
   useEffect(() => {
     const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
@@ -36,8 +38,43 @@ export default function AdminPanel() {
   }, [router]);
 
   return (
-    <>
-      <Equipe />
-    </>
+    <div style={{ padding: "2rem" }}>
+      <div style={{ marginBottom: "2rem", borderBottom: "2px solid #e0e0e0" }}>
+        <button
+          onClick={() => setActiveTab("equipe")}
+          style={{
+            padding: "1rem 2rem",
+            border: "none",
+            background: activeTab === "equipe" ? "#2196F3" : "transparent",
+            color: activeTab === "equipe" ? "white" : "#333",
+            cursor: "pointer",
+            fontSize: "1rem",
+            fontWeight: "600",
+            marginRight: "1rem",
+            borderRadius: "4px 4px 0 0"
+          }}
+        >
+          Equipe
+        </button>
+        <button
+          onClick={() => setActiveTab("noticias")}
+          style={{
+            padding: "1rem 2rem",
+            border: "none",
+            background: activeTab === "noticias" ? "#2196F3" : "transparent",
+            color: activeTab === "noticias" ? "white" : "#333",
+            cursor: "pointer",
+            fontSize: "1rem",
+            fontWeight: "600",
+            borderRadius: "4px 4px 0 0"
+          }}
+        >
+          Notícias
+        </button>
+      </div>
+
+      {activeTab === "equipe" && <Equipe />}
+      {activeTab === "noticias" && <Noticias />}
+    </div>
   );
 }

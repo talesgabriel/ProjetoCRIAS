@@ -1,6 +1,7 @@
 // filepath: /home/regidev/github/ProjetoCRIAS/src/pages/admin/AdminPanel.jsx
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { Toast } from 'react-toastify';
 import styles from '../../styles/Equipe.module.css';
 
 const CARGOS = {
