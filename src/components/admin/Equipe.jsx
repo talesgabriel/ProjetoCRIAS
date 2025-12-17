@@ -355,13 +355,6 @@ export default function AdminPanel() {
         pauseOnHover
         theme="light"
       />
-      
-      <header className={styles.header}>
-        <h1 className={styles.headerTitle}>Painel Administrativo - CRIAS</h1>
-        <button onClick={handleLogout} className={styles.logoutButton}>
-          Sair
-        </button>
-      </header>
 
       <main className={styles.main}>
         <div className={styles.titleSection}>
