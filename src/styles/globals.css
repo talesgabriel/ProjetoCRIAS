@@ -291,7 +291,7 @@ nav a:hover {
   font-size: 15px;
 }
 
-.estrutura-section {
+.estrutura {
   background-color: #fff6e5;
   padding: 100px 0;
   display: flex;
@@ -305,7 +305,7 @@ nav a:hover {
   color: #333;
 }
 
-.tag {
+.tag-estrutura {
   background-color: #FFE3D0;
   color: var(--laranja);
   padding: 8px 20px;
@@ -363,13 +363,22 @@ section.portfolio {
   text-align: center;
 }
 
-.title {
-  background-color: #FFE4C2;
+.tag-portfolio {
+  background-color: #FFE3D0;
   color: var(--laranja);
-  padding: 6px 16px;
-  border-radius: 12px;
-  font-weight: 500;
-  font-size: 14px;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.subtitulo-portfolio {
+  margin-top: 10px;
+  margin-bottom: 50px;
+  color: #555;
+  font-size: 1.1rem;
 }
 
 .portfolio h2 {
@@ -379,12 +388,6 @@ section.portfolio {
 
 .portfolio h2 span {
   color: var(--laranja);
-}
-
-.portfolio p {
-  color: #777;
-  font-size: 16px;
-  margin-bottom: 50px;
 }
 
 .cards {
@@ -403,42 +406,141 @@ section.portfolio {
   
 }
 
-.card .img {
-  height: 160px;
-  background-color: #ccc;
+.portfolio-card {
+  padding: 0;
+  overflow: hidden;
 }
 
-.card-content {
+.portfolio-img {
+  height: 190px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.card-tag {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background-color: var(--laranja);
+  color: var(--branco);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.portfolio-content {
   padding: 20px;
 }
 
-
-.details-link {
-  color: #F36B2D;
-  font-weight: 600;
-  text-decoration: none;
+.portfolio-content h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--preto);
+  margin-bottom: 8px;
 }
 
-.noticias-section {
+.portfolio-content p {
+  font-size: 14px;
+  color: #777;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.details-link {
+  background: none;
+  border: none;
+  color: var(--laranja);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+}
+
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: #FFF8E1;
+  border-radius: 14px;
+  padding: 30px;
+  width: 90%;
+  max-width: 520px;
+  position: relative;
+  text-align: left;
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.modal-img {
+  width: 100%;
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.modal-overlay .modal-content h2 {
+  font-size: 25px;
+  margin: 1px 0 10px;
+}
+
+.modal-texto {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #5C4D4D;
+}
+
+.modal-download {
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.modal-data {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #777;
+}
+
+.noticias {
   padding: 80px 15%;
   text-align: center;
 }
 
-.tag-topo {
+.tag-noticias {
   background: #E7E6F7;
   color: var(--azul);
-  padding: 6px 14px;
+  padding: 8px 20px;
   border-radius: 20px;
   font-weight: 600;
+  font-size: 0.9rem;
+  display: inline-block;
+  margin-bottom: 20px;
 }
 
-.titulo-noticias {
-  margin-top: 15px;
-  font-size: 2.8rem;
-  font-weight: 800;
+.noticias h2 {
+  font-size: 42px;
+  margin: 1px 0 10px;
 }
-
-.titulo-noticias .azul {
+.noticias h2 span {
   color: var(--azul);
 }
 
@@ -634,7 +736,6 @@ section.portfolio {
   max-width: 1200px;
   margin: auto;
 }
-
 
 .footer-links {
   display: flex;

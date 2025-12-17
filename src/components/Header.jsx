@@ -12,7 +12,6 @@ export default function Header() {
           <li><Link href="#sobre">Quem somos</Link></li>
           <li><Link href="#portfolio">Portfólio</Link></li>
           <li><Link href="#noticias">Notícias</Link></li>
-          <li><Link href="#contato">Contato</Link></li>
         </ul>
       </nav>
 

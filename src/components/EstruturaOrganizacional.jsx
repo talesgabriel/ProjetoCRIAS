@@ -1,9 +1,9 @@
 export default function EstruturaOrganizacional() {
   return (
-    <section id="estrutura" className="estrutura-section">
+    <section id="estrutura" className="estrutura">
       <div className="estrutura-container">
         <div className="estrutura-header">
-          <span className="tag">Nossa equipe</span>
+          <span className="tag-estrutura">Nossa equipe</span>
           <h2>Estrutura Organizacional</h2>
           <p>Nossa equipe é formada por estudantes dedicados, organizados em diferentes áreas para garantir excelência em todos os projetos.</p>
         </div>
