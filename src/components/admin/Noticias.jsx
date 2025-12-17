@@ -54,6 +54,40 @@ export default function Noticias() {
     }));
   };
 
+  // Função para obter o tipo MIME baseado na extensão
+  const getMimeType = (filename) => {
+    if (!filename) return 'application/octet-stream';
+    
+    const extension = filename.toLowerCase().split('.').pop();
+    const mimeTypes = {
+      // Imagens
+      'jpg': 'image/jpeg',
+      'jpeg': 'image/jpeg',
+      'png': 'image/png',
+      'gif': 'image/gif',
+      'bmp': 'image/bmp',
+      'webp': 'image/webp',
+      'svg': 'image/svg+xml',
+      // Documentos
+      'pdf': 'application/pdf',
+      'doc': 'application/msword',
+      'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'xls': 'application/vnd.ms-excel',
+      'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'ppt': 'application/vnd.ms-powerpoint',
+      'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      // Compactados
+      'zip': 'application/zip',
+      'rar': 'application/x-rar-compressed',
+      '7z': 'application/x-7z-compressed',
+      // Texto
+      'txt': 'text/plain',
+      'csv': 'text/csv',
+    };
+    
+    return mimeTypes[extension] || 'application/octet-stream';
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -359,7 +393,11 @@ export default function Noticias() {
                     name="arquivo"
                     className={styles.input}
                     onChange={handleFileChange}
+                    accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.rar,.7z,image/*"
                   />
+                  <small style={{ color: '#666', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                    Formatos aceitos: PDF, Word, Excel, PowerPoint, ZIP, RAR, 7Z e imagens
+                  </small>
                 </div>
 
                 <div className={styles.formActions}>
@@ -405,11 +443,11 @@ export default function Noticias() {
                 
                 {noticia.arquivo && (
                   <a 
-                    href={`data:application/pdf;base64,${noticia.arquivo}`}
-                    download={`${noticia.titulo}.pdf`}
+                    href={`data:${getMimeType(noticia.nomeArquivo)};base64,${noticia.arquivo}`}
+                    download={noticia.nomeArquivo || `${noticia.titulo}.pdf`}
                     className={styles.arquivoLink}
                   >
-                    📎 Arquivo anexo
+                    📎 {noticia.nomeArquivo || 'Arquivo anexo'}
                   </a>
                 )}
               </div>
