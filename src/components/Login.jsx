@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import styles from '../../styles/Login.module.css';
+import styles from '../styles/Login.module.css';
 
 export default function Login() {
   const router = useRouter();
@@ -61,7 +61,7 @@ export default function Login() {
         
         // Redireciona para o AdminPanel após 1 segundo
         setTimeout(() => {
-          router.push('/admin/adminpanel');
+          router.push('/admin');
         }, 1000);
       } else {
         setMessage(data.message || 'Erro ao fazer login. Verifique suas credenciais.');
