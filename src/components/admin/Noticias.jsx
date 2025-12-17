@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import styles from "../../styles/Noticias.module.css";
 
 export default function Noticias() {
@@ -30,7 +32,7 @@ export default function Noticias() {
       setNoticias(data);
     } catch (error) {
       console.error("Erro ao buscar notícias:", error);
-      alert("Erro ao carregar notícias");
+      toast.error("Erro ao carregar notícias. Tente novamente.");
     } finally {
       setLoading(false);
     }
@@ -57,7 +59,7 @@ export default function Noticias() {
     
     const token = localStorage.getItem("accessToken");
     if (!token) {
-      alert("Você precisa estar autenticado");
+      toast.error("Você precisa estar autenticado");
       return;
     }
 
@@ -104,14 +106,14 @@ export default function Noticias() {
         throw new Error(errorData.message || "Erro ao salvar notícia");
       }
 
-      alert(editingNoticia ? "Notícia atualizada com sucesso!" : "Notícia criada com sucesso!");
+      toast.success(editingNoticia ? "Notícia atualizada com sucesso!" : "Notícia criada com sucesso!");
       
       // Resetar formulário
       resetForm();
       fetchNoticias();
     } catch (error) {
       console.error("Erro ao salvar notícia:", error);
-      alert(error.message || "Erro ao salvar notícia");
+      toast.error(error.message || "Erro ao salvar notícia. Tente novamente.");
     } finally {
       setLoading(false);
     }
@@ -131,13 +133,61 @@ export default function Noticias() {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm("Tem certeza que deseja excluir esta notícia?")) {
-      return;
-    }
+    toast.warn(
+      ({ closeToast }) => (
+        <div>
+          <p style={{ marginBottom: '15px', fontSize: '14px' }}>
+            Tem certeza que deseja excluir esta notícia?
+          </p>
+          <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+            <button
+              onClick={() => {
+                closeToast();
+              }}
+              style={{
+                padding: '8px 16px',
+                borderRadius: '4px',
+                border: '1px solid #ccc',
+                backgroundColor: '#fff',
+                cursor: 'pointer',
+                fontSize: '13px'
+              }}
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={() => {
+                closeToast();
+                deleteNoticia(id);
+              }}
+              style={{
+                padding: '8px 16px',
+                borderRadius: '4px',
+                border: 'none',
+                backgroundColor: '#d32f2f',
+                color: '#fff',
+                cursor: 'pointer',
+                fontSize: '13px'
+              }}
+            >
+              Excluir
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        position: 'bottom-center',
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
+  };
 
+  const deleteNoticia = async (id) => {
     const token = localStorage.getItem("accessToken");
     if (!token) {
-      alert("Você precisa estar autenticado");
+      toast.error("Você precisa estar autenticado");
       return;
     }
 
@@ -156,11 +206,11 @@ export default function Noticias() {
         throw new Error(errorData.message || "Erro ao excluir notícia");
       }
 
-      alert("Notícia excluída com sucesso!");
+      toast.success("Notícia excluída com sucesso!");
       fetchNoticias();
     } catch (error) {
       console.error("Erro ao excluir notícia:", error);
-      alert(error.message || "Erro ao excluir notícia");
+      toast.error(error.message || "Erro ao excluir notícia. Tente novamente.");
     } finally {
       setLoading(false);
     }
@@ -181,6 +231,19 @@ export default function Noticias() {
 
   return (
     <div className={styles.container}>
+      <ToastContainer 
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      
       <div className={styles.main}>
         <div className={styles.titleSection}>
           <h1 className={styles.title}>Gerenciamento de Notícias</h1>
