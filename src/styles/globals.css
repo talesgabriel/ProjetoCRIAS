@@ -352,6 +352,43 @@ nav a:hover {
   color: #555;
 }
 
+.pessoas-cargo {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.pessoa-equipe {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-width: 100px;
+  text-align: center;
+}
+
+.pessoa-foto {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+.pessoa-nome {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--preto);
+}
+
+.bloco-cargo {
+  margin-bottom: 40px;
+}
+
+
 .linha-divisao {
   border: none;
   border-top: 1px solid #ddd;

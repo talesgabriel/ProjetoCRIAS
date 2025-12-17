@@ -1,4 +1,4 @@
-export default function NoticiasModal({ noticia, onClose }) {
+export default function NoticiasModal({noticia, onClose}) {
   const isEdital = noticia.tag?.toUpperCase() === "EDITAL";
 
   return (

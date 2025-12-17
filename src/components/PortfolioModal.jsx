@@ -1,4 +1,4 @@
-export default function PortfolioModal({ projeto, onClose }) {
+export default function PortfolioModal({projeto, onClose}) {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
