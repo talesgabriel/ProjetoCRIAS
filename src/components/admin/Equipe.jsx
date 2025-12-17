@@ -1,7 +1,8 @@
 // filepath: /home/regidev/github/ProjetoCRIAS/src/pages/admin/AdminPanel.jsx
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from '../../styles/Equipe.module.css';
 
 const CARGOS = {
@@ -29,8 +30,6 @@ export default function AdminPanel() {
   const router = useRouter();
   const [equipe, setEquipe] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [editingMember, setEditingMember] = useState(null);
   const [formData, setFormData] = useState({
@@ -70,9 +69,8 @@ export default function AdminPanel() {
 
       const data = await response.json();
       setEquipe(data);
-      setError('');
     } catch (err) {
-      setError('Erro ao carregar membros da equipe. Tente novamente.');
+      toast.error('Erro ao carregar membros da equipe. Tente novamente.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -166,8 +164,6 @@ export default function AdminPanel() {
     }
 
     setSubmitting(true);
-    setError('');
-    setSuccess('');
 
     try {
       const token = localStorage.getItem('accessToken');
@@ -231,6 +227,7 @@ export default function AdminPanel() {
 
       if (response.status === 403 || response.status === 401) {
         localStorage.removeItem('accessToken');
+        toast.error('Sessão expirada. Faça login novamente.');
         router.push('/admin/login');
         return;
       } 
@@ -239,24 +236,70 @@ export default function AdminPanel() {
         throw new Error('Erro ao salvar membro');
       }
 
-      setSuccess(editingMember ? 'Membro atualizado com sucesso!' : 'Membro adicionado com sucesso!');
+      toast.success(editingMember ? 'Membro atualizado com sucesso!' : 'Membro adicionado com sucesso!');
       closeModal();
       fetchEquipe();
-      
-      setTimeout(() => setSuccess(''), 5000);
     } catch (err) {
-      setError('Erro ao salvar membro. Tente novamente.');
+      toast.error('Erro ao salvar membro. Tente novamente.');
       console.error(err);
     } finally {
       setSubmitting(false);
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm('Tem certeza que deseja excluir este membro?')) {
-      return;
-    }
+  const confirmDelete = (id) => {
+    toast.warn(
+      ({ closeToast }) => (
+        <div>
+          <p style={{ marginBottom: '15px', fontSize: '14px' }}>
+            Tem certeza que deseja excluir este membro?
+          </p>
+          <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+            <button
+              onClick={() => {
+                closeToast();
+              }}
+              style={{
+                padding: '8px 16px',
+                borderRadius: '4px',
+                border: '1px solid #ccc',
+                backgroundColor: '#fff',
+                cursor: 'pointer',
+                fontSize: '13px'
+              }}
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={() => {
+                closeToast();
+                handleDelete(id);
+              }}
+              style={{
+                padding: '8px 16px',
+                borderRadius: '4px',
+                border: 'none',
+                backgroundColor: '#d32f2f',
+                color: '#fff',
+                cursor: 'pointer',
+                fontSize: '13px'
+              }}
+            >
+              Excluir
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        position: 'bottom-center',
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
+  };
 
+  const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem('accessToken');
       
@@ -270,6 +313,7 @@ export default function AdminPanel() {
 
       if (response.status === 401 || response.status === 403) {
         localStorage.removeItem('accessToken');
+        toast.error('Sessão expirada. Faça login novamente.');
         router.push('/admin/login');
         return;
       }
@@ -278,12 +322,10 @@ export default function AdminPanel() {
         throw new Error('Erro ao deletar membro');
       }
 
-      setSuccess('Membro excluído com sucesso!');
+      toast.success('Membro excluído com sucesso!');
       fetchEquipe();
-      
-      setTimeout(() => setSuccess(''), 5000);
     } catch (err) {
-      setError('Erro ao excluir membro. Tente novamente.');
+      toast.error('Erro ao excluir membro. Tente novamente.');
       console.error(err);
     }
   };
@@ -301,6 +343,19 @@ export default function AdminPanel() {
 
   return (
     <div className={styles.container}>
+      <ToastContainer 
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      
       <header className={styles.header}>
         <h1 className={styles.headerTitle}>Painel Administrativo - CRIAS</h1>
         <button onClick={handleLogout} className={styles.logoutButton}>
@@ -313,9 +368,6 @@ export default function AdminPanel() {
           <h2 className={styles.title}>Gerenciar Equipe</h2>
           <p className={styles.subtitle}>Adicione, edite ou remova membros da equipe</p>
         </div>
-
-        {error && <div className={styles.error}>{error}</div>}
-        {success && <div className={styles.success}>{success}</div>}
 
         <div className={styles.actions}>
           <button onClick={() => openModal()} className={styles.addButton}>
@@ -354,7 +406,7 @@ export default function AdminPanel() {
                     Editar
                   </button>
                   <button 
-                    onClick={() => handleDelete(member.id)} 
+                    onClick={() => confirmDelete(member.id)} 
                     className={styles.deleteButton}
                   >
                     Excluir
