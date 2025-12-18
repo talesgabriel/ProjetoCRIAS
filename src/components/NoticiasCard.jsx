@@ -12,8 +12,11 @@ export default function NoticiasCard({noticia, onDetalhes}) {
             : "none"
         }}
       >
-        <span className="card-tag">
-          {tag === "EDITAL" ? "Editais" : "Notícias"}
+        <span 
+          className="card-tag-not"
+          style={{ backgroundColor: tag === "EDITAL" ? "#F75F1C" : "#021DA2" }}
+        >
+          {tag === "EDITAL" ? " 🏷️ Editais" : " 🏷️ Notícias"}
         </span>
       </div>
 
@@ -25,11 +28,7 @@ export default function NoticiasCard({noticia, onDetalhes}) {
 
         <h3>{titulo}</h3>
 
-        <p>
-          {conteudo.length > 110
-            ? conteudo.slice(0, 110) + "..."
-            : conteudo}
-        </p>
+        <p className="card-content">{conteudo}</p>
 
         <button className="details-link" onClick={onDetalhes}>Ler mais →</button>
 

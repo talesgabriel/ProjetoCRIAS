@@ -1,8 +1,50 @@
+import { useState } from "react";
+
 export default function Contato() {
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [mensagem, setMensagem] = useState("");
+  const [enviando, setEnviando] = useState(false);
+  const [status, setStatus] = useState(null);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    setEnviando(true);
+    setStatus(null);
+
+    try {
+      const res = await fetch("http://localhost:8080/api/v1/contato", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nome,
+          email,
+          mensagem,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Erro ao enviar contato");
+      }
+
+      setNome("");
+      setEmail("");
+      setMensagem("");
+      setStatus("sucesso");
+    } catch (error) {
+      console.error(error);
+      setStatus("erro");
+    } finally {
+      setEnviando(false);
+    }
+  }
+
   return (
     <section id="contato" className="contato">
       <div className="container-contato">
-        
         <div className="titulo-contato">
           <span className="tag">Entre em contato</span>
           <h2>Vamos Conversar?</h2>
@@ -10,26 +52,57 @@ export default function Contato() {
         </div>
 
         <div className="conteudo-contato">
-          
-          <form className="formulario">
+          <form className="formulario" onSubmit={handleSubmit}>
             <label>Nome completo</label>
-            <input type="text" placeholder="Seu nome" required />
+            <input
+              type="text"
+              placeholder="Seu nome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              required
+            />
 
             <label>Email</label>
-            <input type="email" placeholder="Seu@email.com" required />
+            <input
+              type="email"
+              placeholder="Seu@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
 
             <label>Mensagem</label>
-            <textarea placeholder="Conte-nos sobre sua ideia..." required />
+            <textarea
+              placeholder="Conte-nos sobre sua ideia..."
+              value={mensagem}
+              onChange={(e) => setMensagem(e.target.value)}
+              required
+            />
 
-            <button type="submit">Enviar mensagem</button>
+            <button type="submit" disabled={enviando}>
+              {enviando ? "Enviando..." : "Enviar mensagem"}
+            </button>
+
+            {status === "sucesso" && (
+              <p className="mensagem-sucesso">
+                Mensagem enviada com sucesso!
+              </p>
+            )}
+
+            {status === "erro" && (
+              <p className="mensagem-erro">
+                Ocorreu um erro ao enviar. Tente novamente.
+              </p>
+            )}
           </form>
 
           <div className="info-contato">
-            
             <div className="card-info">
               <img src="/img/icon4.png" alt="Email" />
               <div>
-                <p className="titulo-info"><b>E-mail</b></p>
+                <p className="titulo-info">
+                  <b>E-mail</b>
+                </p>
                 <p>contato@crias.com</p>
               </div>
             </div>
@@ -37,7 +110,9 @@ export default function Contato() {
             <div className="card-info">
               <img src="/img/icon5.png" alt="Telefone" />
               <div>
-                <p className="titulo-info"><b>Telefone</b></p>
+                <p className="titulo-info">
+                  <b>Telefone</b>
+                </p>
                 <p>(00) 0000-0000</p>
               </div>
             </div>
@@ -45,7 +120,9 @@ export default function Contato() {
             <div className="card-info">
               <img src="/img/icon6.png" alt="Endereço" />
               <div>
-                <p className="titulo-info"><b>Endereço</b></p>
+                <p className="titulo-info">
+                  <b>Endereço</b>
+                </p>
                 <p>Campus Universitário – Curso de Comunicação</p>
               </div>
             </div>
@@ -53,9 +130,15 @@ export default function Contato() {
             <div className="redes">
               <p className="titulo-redes">Redes sociais</p>
               <div className="icones-redes">
-                <a href="https://shre.ink/instacrias"><i className="fa-brands fa-instagram"></i></a>
-                <a href="#"><i className="fa-brands fa-linkedin"></i></a>
-                <a href="#"><i className="fa-brands fa-facebook-f"></i></a>
+                <a href="https://shre.ink/instacrias">
+                  <i className="fa-brands fa-instagram"></i>
+                </a>
+                <a href="#">
+                  <i className="fa-brands fa-linkedin"></i>
+                </a>
+                <a href="#">
+                  <i className="fa-brands fa-facebook-f"></i>
+                </a>
               </div>
             </div>
 
@@ -67,7 +150,6 @@ export default function Contato() {
                 referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
-
           </div>
         </div>
       </div>

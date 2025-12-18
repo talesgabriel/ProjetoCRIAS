@@ -27,7 +27,6 @@ export default function Footer() {
               <li><a href="#">Empresa Júnior</a></li>
               <li><a href="#">Curso de Comunicação</a></li>
               <li><a href="#">Campus Universitário</a></li>
-              <li><a href="/admin">Acesso Restrito</a></li>
             </ul>
           </div>
         </div>
