@@ -1,5 +1,6 @@
 import Equipe from "../../components/admin/Equipe";
 import Noticias from "../../components/admin/Noticias";
+import Projetos from "../../components/admin/Projetos";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -66,15 +67,32 @@ export default function AdminPanel() {
             cursor: "pointer",
             fontSize: "1rem",
             fontWeight: "600",
+            marginRight: "1rem",
             borderRadius: "4px 4px 0 0"
           }}
         >
           Notícias
         </button>
+        <button
+          onClick={() => setActiveTab("projetos")}
+          style={{
+            padding: "1rem 2rem",
+            border: "none",
+            background: activeTab === "projetos" ? "#2196F3" : "transparent",
+            color: activeTab === "projetos" ? "white" : "#333",
+            cursor: "pointer",
+            fontSize: "1rem",
+            fontWeight: "600",
+            borderRadius: "4px 4px 0 0"
+          }}
+        >
+          Projetos
+        </button>
       </div>
 
       {activeTab === "equipe" && <Equipe />}
       {activeTab === "noticias" && <Noticias />}
+      {activeTab === "projetos" && <Projetos />}
     </div>
   );
 }
