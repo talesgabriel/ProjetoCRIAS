@@ -230,11 +230,17 @@ export default function Projetos() {
         body: formDataToSend
       });
 
+      if (response.status === 403 || response.status === 401) {
+        localStorage.removeItem('accessToken');
+        toast.error('Sessão expirada. Faça login novamente.');
+        router.push('/admin/login');
+        return;
+      }
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.message || 'Erro ao salvar projeto');
       }
-
       toast.success(editingProjeto ? 'Projeto atualizado com sucesso!' : 'Projeto criado com sucesso!');
       closeModal();
       fetchProjetos();
@@ -246,11 +252,59 @@ export default function Projetos() {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm('Tem certeza que deseja excluir este projeto?')) {
-      return;
-    }
+  const confirmDelete = (id) => {
+    toast.warn(
+      ({ closeToast }) => (
+        <div>
+          <p style={{ marginBottom: '15px', fontSize: '14px' }}>
+            Tem certeza que deseja excluir este projeto?
+          </p>
+          <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+            <button
+              onClick={() => {
+                closeToast();
+              }}
+              style={{
+                padding: '8px 16px',
+                borderRadius: '4px',
+                border: '1px solid #ccc',
+                backgroundColor: '#fff',
+                cursor: 'pointer',
+                fontSize: '13px'
+              }}
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={() => {
+                closeToast();
+                handleDelete(id);
+              }}
+              style={{
+                padding: '8px 16px',
+                borderRadius: '4px',
+                border: 'none',
+                backgroundColor: '#d32f2f',
+                color: '#fff',
+                cursor: 'pointer',
+                fontSize: '13px'
+              }}
+            >
+              Excluir
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        position: 'bottom-center',
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
+  };
 
+  const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem('accessToken');
       
@@ -268,6 +322,13 @@ export default function Projetos() {
         }
       });
 
+      if (response.status === 401 || response.status === 403) {
+        localStorage.removeItem('accessToken');
+        toast.error('Sessão expirada. Faça login novamente.');
+        router.push('/admin/login');
+        return;
+      }
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.message || 'Erro ao excluir projeto');
@@ -281,13 +342,20 @@ export default function Projetos() {
     }
   };
 
-  if (loading) {
-    return <div className={styles.loading}>Carregando projetos...</div>;
-  }
-
   return (
     <div className={styles.container}>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer 
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       
       <main className={styles.main}>
         <div className={styles.titleSection}>
@@ -301,7 +369,9 @@ export default function Projetos() {
           </button>
         </div>
 
-        {projetos.length === 0 ? (
+        {loading ? (
+          <div className={styles.loading}>Carregando projetos...</div>
+        ) : projetos.length === 0 ? (
           <div className={styles.emptyState}>
             <h3>Nenhum projeto cadastrado</h3>
             <p>Clique no botão acima para adicionar o primeiro projeto.</p>
@@ -333,7 +403,7 @@ export default function Projetos() {
                   </button>
                   <button 
                     className={styles.deleteButton}
-                    onClick={() => handleDelete(projeto.id)}
+                    onClick={() => confirmDelete(projeto.id)}
                   >
                     Excluir
                   </button>
