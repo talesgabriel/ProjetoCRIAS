@@ -13,11 +13,17 @@
   box-sizing: border-box;
 }
 
+html, body {
+  width: 100%;
+  max-width: 100%;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
+  margin: 0;
   background-color: var(--creme);
   font-family: 'Poppins', sans-serif;
   color: var(--preto);
@@ -888,5 +894,212 @@ section.portfolio {
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@media (max-width: 1024px) {
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+}
+
+@media (max-width: 1024px) {
+
+  header {
+    padding: 20px 30px;
+  }
+
+  nav ul {
+    gap: 20px;
+  }
+
+  section.portfolio,
+  .noticias,
+  .contato {
+    padding-left: 8%;
+    padding-right: 8%;
+  }
+
+  .conteudo-contato {
+    gap: 60px;
+  }
+
+  .info-contato,
+  .formulario {
+    width: 100%;
+  }
+
+  .card-info,
+  .redes,
+  .mapa-container {
+    width: 100%;
+  }
+
+  .mapa-uern {
+    height: 220px;
+  }
+
+
+  header {
+    padding: 16px 32px;
+    gap: 20px;
+  }
+
+  nav ul {
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav a {
+    font-size: 0.95rem;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+
+  header {
+    padding: 16px 20px;
+  }
+
+  nav ul {
+    display: none;
+  }
+
+  .home {
+    padding: 60px 20px;
+  }
+
+  .titulo-home h1 {
+    font-size: 42px;
+    line-height: 48px;
+  }
+
+  .home p {
+    font-size: 1.05rem;
+  }
+
+  .metricas {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .sobre {
+    margin: 80px 0;
+    padding: 0 20px;
+  }
+
+  .titulo-sobre {
+    font-size: 36px;
+  }
+
+  .cards,
+  .cards2 {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  section.portfolio,
+  .noticias {
+    padding: 60px 20px;
+  }
+
+  .portfolio h2,
+  .noticias h2 {
+    font-size: 34px;
+  }
+
+  .conteudo-contato {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .formulario,
+  .info-contato {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .card-info,
+  .redes,
+  .mapa-container {
+    width: 100%;
+  }
+
+  .mapa-uern {
+    height: 200px;
+  }
+
+  .container-footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 20px;
+    gap: 12px;
+  }
+
+  header img {
+    height: 36px;
+  }
+
+  nav ul {
+    width: 100%;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 400px) {
+
+  .titulo-home h1 {
+    font-size: 36px;
+    line-height: 42px;
+  }
+
+  .portfolio h2,
+  .noticias h2,
+  .contato h2 {
+    font-size: 30px;
+  }
+
+  .formulario {
+    padding: 24px;
+  }
+
+  .toast-success {
+    width: calc(100% - 40px);
+    right: 20px;
+    bottom: 20px;
+  }
+
+  header {
+    padding: 12px 16px;
+  }
+
+  nav ul {
+    gap: 12px;
+  }
+
+  nav a {
+    font-size: 0.9rem;
   }
 }
