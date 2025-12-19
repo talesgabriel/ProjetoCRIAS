@@ -111,11 +111,15 @@ export default function Noticias() {
       }
       
       // Adicionar dados JSON
+      // Converter data para UTC (meio-dia UTC para evitar problemas de fuso horário)
+      const [year, month, day] = formData.data.split('-');
+      const dataUTC = new Date(Date.UTC(year, month - 1, day, 12, 0, 0, 0));
+      
       const jsonData = {
         titulo: formData.titulo,
         conteudo: formData.conteudo,
         tag: formData.tag,
-        data: new Date(formData.data).toISOString()
+        data: dataUTC.toISOString()
       };
       
       if (editingNoticia) {
